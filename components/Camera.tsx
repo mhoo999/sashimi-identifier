@@ -3,6 +3,7 @@
 import { useRef, useState, useCallback } from 'react'
 import Webcam from 'react-webcam'
 import { Camera as CameraIcon, Upload, X } from 'lucide-react'
+import { compressImage, getImageSizeKB } from '@/lib/imageUtils'
 
 interface CameraProps {
   onCapture: (imageSrc: string) => void
@@ -12,23 +13,45 @@ export default function Camera({ onCapture }: CameraProps) {
   const webcamRef = useRef<Webcam>(null)
   const [isCameraOpen, setIsCameraOpen] = useState(false)
   const [facingMode, setFacingMode] = useState<'user' | 'environment'>('environment')
+  const [isCompressing, setIsCompressing] = useState(false)
 
   // 사진 촬영
-  const capture = useCallback(() => {
+  const capture = useCallback(async () => {
     const imageSrc = webcamRef.current?.getScreenshot()
     if (imageSrc) {
-      onCapture(imageSrc)
-      setIsCameraOpen(false)
+      setIsCompressing(true)
+      try {
+        const compressed = await compressImage(imageSrc, 1024, 0.85)
+        console.log('이미지 압축:', getImageSizeKB(imageSrc), 'KB →', getImageSizeKB(compressed), 'KB')
+        onCapture(compressed)
+        setIsCameraOpen(false)
+      } catch (error) {
+        console.error('이미지 압축 실패:', error)
+        onCapture(imageSrc)
+        setIsCameraOpen(false)
+      } finally {
+        setIsCompressing(false)
+      }
     }
   }, [onCapture])
 
   // 파일 업로드
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      setIsCompressing(true)
       const reader = new FileReader()
-      reader.onloadend = () => {
-        onCapture(reader.result as string)
+      reader.onloadend = async () => {
+        try {
+          const compressed = await compressImage(reader.result as string, 1024, 0.85)
+          console.log('이미지 압축:', Math.round(file.size / 1024), 'KB →', getImageSizeKB(compressed), 'KB')
+          onCapture(compressed)
+        } catch (error) {
+          console.error('이미지 압축 실패:', error)
+          onCapture(reader.result as string)
+        } finally {
+          setIsCompressing(false)
+        }
       }
       reader.readAsDataURL(file)
     }
@@ -37,6 +60,15 @@ export default function Camera({ onCapture }: CameraProps) {
   // 카메라 전환 (전면/후면)
   const toggleCamera = () => {
     setFacingMode(prev => prev === 'user' ? 'environment' : 'user')
+  }
+
+  if (isCompressing) {
+    return (
+      <div className="text-center py-8">
+        <div className="text-4xl mb-4">📸</div>
+        <p className="text-gray-600">이미지 처리 중...</p>
+      </div>
+    )
   }
 
   return (
@@ -100,9 +132,10 @@ export default function Camera({ onCapture }: CameraProps) {
           <div className="mt-4">
             <button
               onClick={capture}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors"
+              disabled={isCompressing}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors disabled:bg-gray-400"
             >
-              📸 촬영하기
+              {isCompressing ? '처리 중...' : '📸 촬영하기'}
             </button>
           </div>
         </div>

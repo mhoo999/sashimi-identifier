@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🐟 회식별사
 
-## Getting Started
+AI가 회 사진을 보고 어떤 생선인지 알려드립니다.
 
-First, run the development server:
+🔗 **[https://sashimi-identifier.vercel.app](https://sashimi-identifier.vercel.app)** (배포 후 실제 URL로 변경)
 
+## 소개
+
+횟집이나 마트에서 회를 먹을 때 "이게 무슨 생선이지?" 궁금했던 적 있으신가요?
+회식별사는 사진 한 장으로 생선의 종류와 상세 정보를 알려드립니다.
+
+### 주요 기능
+
+- 📸 **간편한 촬영**: 카메라로 찍거나 갤러리에서 선택
+- 🤖 **AI 분석**: OpenAI GPT-4 Vision으로 정확한 식별
+- 📊 **상세 정보**: 맛, 식감, 영양, 제철, 가격대 등
+- 💾 **히스토리**: 분석한 회 기록 자동 저장
+- 📱 **모바일 최적화**: 스마트폰에서도 편하게
+
+## 사용 방법
+
+1. 회 사진을 촬영하거나 업로드
+2. "AI 분석하기" 버튼 클릭
+3. 생선 정보 확인!
+
+## 기술 스택
+
+- **Frontend**: Next.js 15, TypeScript, Tailwind CSS
+- **State**: Zustand
+- **AI**: OpenAI GPT-4o-mini Vision API
+- **Deploy**: Vercel
+
+## 로컬 개발
+
+### 사전 요구사항
+
+- Node.js 18 이상
+- OpenAI API 키
+
+### 설치 및 실행
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

@@ -77,7 +77,7 @@ JSON만 출력하세요.`,
         .trim()
 
       analysisResult = JSON.parse(cleanText)
-    } catch (e) {
+    } catch {
       console.error('JSON 파싱 실패:', resultText)
       return NextResponse.json({
         error: 'AI 응답을 파싱할 수 없습니다.',
@@ -86,10 +86,11 @@ JSON만 출력하세요.`,
     }
 
     return NextResponse.json(analysisResult)
-  } catch (error: any) {
+  } catch (error) {
     console.error('AI 분석 에러:', error)
+    const errorMessage = error instanceof Error ? error.message : 'AI 분석 중 오류가 발생했습니다.'
     return NextResponse.json(
-      { error: error.message || 'AI 분석 중 오류가 발생했습니다.' },
+      { error: errorMessage },
       { status: 500 }
     )
   }

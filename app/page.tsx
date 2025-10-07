@@ -50,8 +50,9 @@ export default function Home() {
         setAnalysisResult(result)
         addToHistory(capturedImage, result)
       }
-    } catch (err: any) {
-      setError(err.message || 'AI 분석 중 오류가 발생했습니다.')
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'AI 분석 중 오류가 발생했습니다.'
+      setError(errorMessage)
     } finally {
       setIsAnalyzing(false)
     }
@@ -63,7 +64,7 @@ export default function Home() {
     setError(null)
   }
 
-  const handleHistoryItemClick = (item: any) => {
+  const handleHistoryItemClick = (item: { id: string; image: string; analysis: FishAnalysis; timestamp: number }) => {
     setCapturedImage(item.image)
     setAnalysisResult(item.analysis)
     setShowHistory(false)

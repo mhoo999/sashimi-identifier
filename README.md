@@ -1,41 +1,35 @@
-# 🐟 회식별사
+# 📜 Fish Scroll - 생선 식별 두루마리
 
-AI가 회 사진을 보고 어떤 생선인지 알려드립니다.
+AI가 회 사진을 보고 어떤 생선인지 식별하는 디아블로 테마 웹 애플리케이션
 
-🔗 **[https://sashimi-identifier.vercel.app](https://sashimi-identifier.vercel.app)** (배포 후 실제 URL로 변경)
+🔗 **[https://fish-scroll.vercel.app](https://fish-scroll.vercel.app)** (배포된 실제 URL로 변경)
 
-## 소개
+![Fish Scroll Banner](https://via.placeholder.com/1200x400/1a1410/d4af37?text=Fish+Scroll+🐟📜)
+
+## ✨ 소개
 
 횟집이나 마트에서 회를 먹을 때 "이게 무슨 생선이지?" 궁금했던 적 있으신가요?
-회식별사는 사진 한 장으로 생선의 종류와 상세 정보를 알려드립니다.
 
-### 주요 기능
+**Fish Scroll**은 디아블로의 "식별 두루마리" 컨셉으로 만든 AI 회 식별 앱입니다.
+사진 한 장으로 생선의 종류와 상세 정보를 마법처럼 알려드립니다.
+
+### 🎮 디아블로 테마 특징
+
+- 📜 **양피지 배경** - 고대 두루마리 느낌
+- 🔮 **마법 식별** - "식별 중..." 애니메이션
+- ⚡ **금색 테두리** - 디아블로 스타일 UI
+- 🏛️ **고딕 폰트** - Cinzel & Medieval Sharp
+- ✨ **마법 효과** - 반짝임과 룬 문자
+
+### 🎯 주요 기능
 
 - 📸 **간편한 촬영**: 카메라로 찍거나 갤러리에서 선택
-- 🤖 **AI 분석**: OpenAI GPT-4 Vision으로 정확한 식별
+- 🔮 **AI 마법 식별**: OpenAI GPT-4 Vision으로 정확한 분석
 - 📊 **상세 정보**: 맛, 식감, 영양, 제철, 가격대 등
-- 💾 **히스토리**: 분석한 회 기록 자동 저장
-- 📱 **모바일 최적화**: 스마트폰에서도 편하게
+- 💾 **식별 기록 보관소**: 분석한 회 기록 자동 저장
+- 📱 **모바일 최적화**: 스마트폰에서도 쾌적한 경험
+- 🎨 **디아블로 UI**: 몰입감 있는 판타지 테마
 
-## 사용 방법
+## 🖼️ 스크린샷
 
-1. 회 사진을 촬영하거나 업로드
-2. "AI 분석하기" 버튼 클릭
-3. 생선 정보 확인!
-
-## 기술 스택
-
-- **Frontend**: Next.js 15, TypeScript, Tailwind CSS
-- **State**: Zustand
-- **AI**: OpenAI GPT-4o-mini Vision API
-- **Deploy**: Vercel
-
-## 로컬 개발
-
-### 사전 요구사항
-
-- Node.js 18 이상
-- OpenAI API 키
-
-### 설치 및 실행
-```bash
+### 메인 화면

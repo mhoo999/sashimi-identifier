@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import OpenAI from 'openai'
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || '')
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+})
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,62 +16,72 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Gemini 1.5 Flash 모델 (무료 티어)
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+    console.log('OpenAI API 호출 시작...')
 
-    const prompt = `이 이미지는 횟감(생선회) 사진입니다. 다음 정보를 JSON 형식으로 정확하게 분석해주세요:
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'text',
+              text: `이 이미지는 횟감(생선회) 사진입니다. 다음 정보를 JSON 형식으로만 응답해주세요:
 
-1. fishName: 생선 이름 (한글)
-2. fishNameEn: 생선 이름 (영문)
-3. fishNameJp: 생선 이름 (일본어)
-4. confidence: 확신도 (0-100 사이의 숫자)
-5. characteristics: 특징 (배열, 3-5개 항목)
-6. taste: 맛 설명 (한 문장)
-7. texture: 식감 설명 (한 문장)
-8. season: 제철 (예: "겨울", "사계절", "여름" 등)
-9. price: 가격대 ("저렴", "보통", "고급", "최고급" 중 하나)
-10. recommendations: 추천 먹는 법 (배열, 2-3개)
-11. nutrition: 영양 정보 (한 문장으로 간단히)
-12. warning: 주의사항 (있다면, 없으면 생략)
+{
+  "fishName": "생선 이름 (한글)",
+  "fishNameEn": "생선 이름 (영문)",
+  "fishNameJp": "생선 이름 (일본어)",
+  "confidence": 확신도 (0-100 사이 숫자),
+  "characteristics": ["특징1", "특징2", "특징3"],
+  "taste": "맛 설명",
+  "texture": "식감 설명",
+  "season": "제철",
+  "price": "저렴/보통/고급/최고급 중 하나",
+  "recommendations": ["추천 먹는 법1", "추천 먹는 법2"],
+  "nutrition": "영양 정보",
+  "warning": "주의사항 (있으면)"
+}
 
-확신이 70% 미만이면 alternatives 필드에 가능성 있는 다른 생선들을 배열로 추가해주세요.
-예: "alternatives": [{"name": "우럭", "probability": 30}, {"name": "볼락", "probability": 20}]
+확신도가 70% 미만이면 alternatives 추가:
+"alternatives": [{"name": "가능성있는생선", "probability": 30}]
 
-반드시 유효한 JSON 형식으로만 응답해주세요. 마크다운이나 다른 텍스트 없이 순수 JSON만 출력하세요.`
-
-    // Base64 이미지를 Gemini 형식으로 변환
-    const base64Data = image.split(',')[1]
-    const mimeType = image.split(',')[0].split(':')[1].split(';')[0]
-
-    const imageParts = [
-      {
-        inlineData: {
-          data: base64Data,
-          mimeType: mimeType,
+JSON만 출력하세요.`,
+            },
+            {
+              type: 'image_url',
+              image_url: {
+                url: image,
+              },
+            },
+          ],
         },
-      },
-    ]
+      ],
+      max_tokens: 1000,
+    })
 
-    // Gemini API 호출
-    const result = await model.generateContent([prompt, ...imageParts])
-    const response = await result.response
-    const text = response.text()
+    const resultText = response.choices[0]?.message?.content
+
+    if (!resultText) {
+      throw new Error('AI 응답이 없습니다.')
+    }
+
+    console.log('AI 응답:', resultText.substring(0, 100))
 
     // JSON 파싱
     let analysisResult
     try {
-      // Gemini는 가끔 ```json으로 감싸서 응답하므로 제거
-      const cleanText = text
+      const cleanText = resultText
         .replace(/```json\n?/g, '')
         .replace(/```\n?/g, '')
         .trim()
-      
+
       analysisResult = JSON.parse(cleanText)
     } catch (e) {
-      console.error('JSON 파싱 실패:', text)
+      console.error('JSON 파싱 실패:', resultText)
       return NextResponse.json({
         error: 'AI 응답을 파싱할 수 없습니다.',
-        rawResponse: text,
+        rawResponse: resultText,
       }, { status: 500 })
     }
 

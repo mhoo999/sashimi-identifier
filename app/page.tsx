@@ -74,25 +74,32 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <div className="container mx-auto px-4 py-8">
         {/* 헤더 */}
-        <header className="text-center mb-12 relative">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
-            🐟 회식별사
-          </h1>
-          <p className="text-gray-600 text-sm md:text-base">
-            회 사진을 찍으면 어떤 생선인지 알려드려요
+        <header className="text-center mb-12">
+          <div className="inline-block">
+            <h1 className="text-4xl md:text-5xl font-bold mb-2 ancient-text">
+              📜 Fish Scroll
+            </h1>
+            <p className="text-sm md:text-base" style={{ color: 'var(--gold)' }}>
+              생선 식별 두루마리
+            </p>
+          </div>
+          <p className="text-gray-400 text-sm md:text-base mt-2">
+            미지의 회를 식별하는 마법의 두루마리
           </p>
           
-          {/* 히스토리 버튼 */}
-          <button
-            onClick={() => setShowHistory(!showHistory)}
-            className="absolute top-0 right-0 bg-white hover:bg-gray-50 text-gray-700 px-3 md:px-4 py-2 rounded-lg shadow-sm border flex items-center gap-2 transition-colors text-sm md:text-base"
-          >
-            <History size={20} />
-            <span className="hidden md:inline">히스토리</span>
-            <span className="bg-blue-500 text-white px-2 py-0.5 rounded-full text-xs">
-              {history.length}
-            </span>
-          </button>
+          {/* 히스토리 버튼 - 제목 아래로 이동 */}
+          <div className="mt-6 flex justify-center">
+            <button
+              onClick={() => setShowHistory(!showHistory)}
+              className="diablo-button px-4 md:px-6 py-2 md:py-3 rounded-lg flex items-center gap-2 text-sm md:text-base"
+            >
+              <History size={20} />
+              <span>식별 기록</span>
+              <span className="bg-amber-600 text-white px-2 py-0.5 rounded-full text-xs">
+                {history.length}
+              </span>
+            </button>
+          </div>
         </header>
 
         {/* 히스토리 모달 */}

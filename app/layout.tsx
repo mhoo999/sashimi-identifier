@@ -1,22 +1,28 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cinzel, MedievalSharp } from "next/font/google";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
   subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const medievalSharp = MedievalSharp({
+  variable: "--font-medieval",
   subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
-  title: "Fish Scroll - AI 회 식별",
-  description: "회 사진을 찍으면 AI가 어떤 생선인지 알려드립니다",
+  title: "Fish Scroll - 생선 식별 두루마리",
+  description: "미지의 회를 식별하는 마법의 두루마리",
+  icons: {
+    icon: '/scroll-icon.svg',
+    apple: '/scroll-icon.svg',
+  },
 };
 
 export default function RootLayout({
@@ -27,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${cinzel.variable} ${medievalSharp.variable} antialiased`}
       >
         {children}
         <Analytics />

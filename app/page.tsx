@@ -71,8 +71,12 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <div className="container mx-auto px-4 py-8">
+    <main className="min-h-screen relative">
+      {/* 배경 오버레이 */}
+      <div className="absolute inset-0 bg-gradient-to-b from-stone-900 via-stone-800 to-stone-900 opacity-95"></div>
+      
+      {/* 실제 콘텐츠 */}
+      <div className="relative z-10 container mx-auto px-4 py-8">
         {/* 헤더 */}
         <header className="text-center mb-12">
           <div className="inline-block">
@@ -104,14 +108,14 @@ export default function Home() {
 
         {/* 히스토리 모달 */}
         {showHistory && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 animate-fadeIn">
-            <div className="bg-white rounded-lg max-w-4xl w-full max-h-[80vh] overflow-hidden">
+          <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fadeIn">
+            <div className="parchment-bg rounded-lg max-w-4xl w-full max-h-[80vh] overflow-hidden gold-border">
               {/* 모달 헤더 */}
-              <div className="flex justify-between items-center p-6 border-b">
-                <h2 className="text-2xl font-bold">분석 히스토리</h2>
+              <div className="flex justify-between items-center p-6 border-b-2 border-amber-800">
+                <h2 className="text-2xl font-bold ancient-text">식별 기록 보관소</h2>
                 <button
                   onClick={() => setShowHistory(false)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-amber-800 hover:text-amber-600 transition-colors"
                 >
                   <X size={24} />
                 </button>
@@ -120,16 +124,16 @@ export default function Home() {
               {/* 히스토리 목록 */}
               <div className="overflow-y-auto max-h-[60vh] p-6">
                 {history.length === 0 ? (
-                  <div className="text-center py-12 text-gray-500">
-                    <div className="text-6xl mb-4">🐟</div>
-                    <p>아직 분석 기록이 없습니다.</p>
+                  <div className="text-center py-12">
+                    <div className="text-6xl mb-4">📜</div>
+                    <p className="ancient-text text-lg">아직 식별된 기록이 없습니다</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {history.map((item) => (
                       <div
                         key={item.id}
-                        className="border rounded-lg overflow-hidden hover:shadow-lg transition-all cursor-pointer transform hover:scale-[1.02]"
+                        className="border-2 border-amber-700 bg-stone-100 rounded-lg overflow-hidden hover:shadow-lg transition-all cursor-pointer transform hover:scale-[1.02]"
                         onClick={() => handleHistoryItemClick(item)}
                       >
                         <img
@@ -137,9 +141,9 @@ export default function Home() {
                           alt={item.analysis.fishName}
                           className="w-full h-48 object-cover"
                         />
-                        <div className="p-4">
+                        <div className="p-4 bg-gradient-to-b from-stone-100 to-stone-200">
                           <div className="flex justify-between items-start mb-2">
-                            <h3 className="font-bold text-lg">
+                            <h3 className="font-bold text-lg ancient-text">
                               {item.analysis.fishName}
                             </h3>
                             <button
@@ -147,15 +151,15 @@ export default function Home() {
                                 e.stopPropagation()
                                 removeFromHistory(item.id)
                               }}
-                              className="text-red-500 hover:text-red-700 p-1"
+                              className="text-red-700 hover:text-red-900 p-1"
                             >
                               <Trash2 size={18} />
                             </button>
                           </div>
-                          <p className="text-sm text-gray-600 mb-2">
+                          <p className="text-sm text-stone-600 mb-2">
                             {item.analysis.fishNameEn}
                           </p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-stone-500">
                             {new Date(item.timestamp).toLocaleString('ko-KR')}
                           </p>
                         </div>
@@ -167,20 +171,20 @@ export default function Home() {
 
               {/* 모달 푸터 */}
               {history.length > 0 && (
-                <div className="border-t p-4 flex justify-between">
+                <div className="border-t-2 border-amber-800 p-4 flex justify-between">
                   <button
                     onClick={() => {
-                      if (confirm('모든 히스토리를 삭제하시겠습니까?')) {
+                      if (confirm('모든 식별 기록을 삭제하시겠습니까?')) {
                         clearHistory()
                       }
                     }}
-                    className="text-red-600 hover:text-red-700 font-semibold"
+                    className="text-red-700 hover:text-red-900 font-semibold"
                   >
                     전체 삭제
                   </button>
                   <button
                     onClick={() => setShowHistory(false)}
-                    className="bg-gray-100 hover:bg-gray-200 px-6 py-2 rounded-lg font-semibold"
+                    className="bg-stone-700 hover:bg-stone-600 border-2 border-amber-700 text-amber-200 px-6 py-2 rounded-lg font-semibold"
                   >
                     닫기
                   </button>
@@ -192,7 +196,7 @@ export default function Home() {
 
         {/* 메인 컨텐츠 영역 */}
         <div className="max-w-2xl mx-auto">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+          <div className="parchment-bg rounded-lg p-6 md:p-8">
             {!capturedImage ? (
               <Camera onCapture={handleCapture} />
             ) : isAnalyzing ? (
@@ -200,7 +204,7 @@ export default function Home() {
                 <img 
                   src={capturedImage} 
                   alt="Analyzing" 
-                  className="w-full rounded-lg mb-6"
+                  className="w-full rounded-lg mb-6 gold-border"
                 />
                 <Loading />
               </div>
@@ -209,27 +213,27 @@ export default function Home() {
                 <img 
                   src={capturedImage} 
                   alt="Captured" 
-                  className="w-full rounded-lg"
+                  className="w-full rounded-lg gold-border"
                 />
                 
                 {error && (
-                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded animate-fadeIn">
-                    {error}
+                  <div className="bg-red-900/20 border-2 border-red-700 text-red-200 px-4 py-3 rounded animate-fadeIn">
+                    <span className="ancient-text">{error}</span>
                   </div>
                 )}
 
                 <div className="flex gap-2">
                   <button
                     onClick={handleReset}
-                    className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-lg transition-colors"
+                    className="flex-1 bg-stone-700 hover:bg-stone-600 border-2 border-amber-700 text-amber-200 font-semibold py-3 px-6 rounded-lg transition-all"
                   >
                     다시 촬영
                   </button>
                   <button
                     onClick={handleAnalyze}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-[1.02]"
+                    className="flex-1 diablo-button font-semibold py-3 px-6 rounded-lg"
                   >
-                    🤖 AI 분석하기
+                    🔮 식별 시작
                   </button>
                 </div>
               </div>
@@ -246,19 +250,27 @@ export default function Home() {
         {/* 사용법 안내 */}
         {!capturedImage && (
           <div className="max-w-2xl mx-auto mt-8 text-center">
-            <h2 className="text-xl font-semibold mb-4">사용법</h2>
+            <h2 className="text-xl font-semibold mb-4 ancient-text">
+              사용 방법
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+              <div className="parchment-bg p-4 rounded-lg">
                 <div className="text-4xl mb-2">📸</div>
-                <p className="text-sm text-gray-600 font-medium">회 사진 촬영</p>
+                <p className="text-sm font-medium" style={{ color: 'var(--dark-red)' }}>
+                  회 사진 촬영
+                </p>
               </div>
-              <div className="p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-                <div className="text-4xl mb-2">🤖</div>
-                <p className="text-sm text-gray-600 font-medium">AI 분석</p>
+              <div className="parchment-bg p-4 rounded-lg">
+                <div className="text-4xl mb-2">🔮</div>
+                <p className="text-sm font-medium" style={{ color: 'var(--dark-red)' }}>
+                  마법 식별
+                </p>
               </div>
-              <div className="p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
-                <div className="text-4xl mb-2">✅</div>
-                <p className="text-sm text-gray-600 font-medium">결과 확인</p>
+              <div className="parchment-bg p-4 rounded-lg">
+                <div className="text-4xl mb-2">📜</div>
+                <p className="text-sm font-medium" style={{ color: 'var(--dark-red)' }}>
+                  결과 확인
+                </p>
               </div>
             </div>
           </div>

@@ -65,8 +65,8 @@ export default function Camera({ onCapture }: CameraProps) {
   if (isCompressing) {
     return (
       <div className="text-center py-8">
-        <div className="text-4xl mb-4">📸</div>
-        <p className="text-gray-600">이미지 처리 중...</p>
+        <div className="text-4xl mb-4 animate-pulse">🔮</div>
+        <p className="ancient-text">이미지 처리 중...</p>
       </div>
     )
   }
@@ -78,10 +78,10 @@ export default function Camera({ onCapture }: CameraProps) {
         <div className="space-y-4">
           <button
             onClick={() => setIsCameraOpen(true)}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors"
+            className="w-full diablo-button font-semibold py-4 px-6 rounded-lg flex items-center justify-center gap-2"
           >
             <CameraIcon size={24} />
-            카메라로 촬영하기
+            📸 직접 촬영하기
           </button>
 
           <div className="relative">
@@ -94,10 +94,10 @@ export default function Camera({ onCapture }: CameraProps) {
             />
             <label
               htmlFor="file-upload"
-              className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-4 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              className="w-full bg-stone-700 hover:bg-stone-600 border-2 border-amber-700 text-amber-200 font-semibold py-4 px-6 rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               <Upload size={24} />
-              갤러리에서 선택하기
+              📜 보관함에서 선택하기
             </label>
           </div>
         </div>
@@ -111,19 +111,19 @@ export default function Camera({ onCapture }: CameraProps) {
             videoConstraints={{
               facingMode: facingMode
             }}
-            className="w-full rounded-lg"
+            className="w-full rounded-lg gold-border"
           />
 
           <div className="absolute top-4 right-4 flex gap-2">
             <button
               onClick={toggleCamera}
-              className="bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-colors"
+              className="bg-stone-800/90 hover:bg-stone-700 border-2 border-amber-600 text-amber-200 p-3 rounded-full shadow-lg transition-colors"
             >
               🔄
             </button>
             <button
               onClick={() => setIsCameraOpen(false)}
-              className="bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-colors"
+              className="bg-stone-800/90 hover:bg-stone-700 border-2 border-red-600 text-red-200 p-3 rounded-full shadow-lg transition-colors"
             >
               <X size={20} />
             </button>
@@ -133,9 +133,9 @@ export default function Camera({ onCapture }: CameraProps) {
             <button
               onClick={capture}
               disabled={isCompressing}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors disabled:bg-gray-400"
+              className="w-full diablo-button font-semibold py-4 px-6 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isCompressing ? '처리 중...' : '📸 촬영하기'}
+              {isCompressing ? '⏳ 처리 중...' : '📸 촬영하기'}
             </button>
           </div>
         </div>

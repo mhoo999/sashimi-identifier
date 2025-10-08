@@ -19,10 +19,6 @@ const medievalSharp = MedievalSharp({
 export const metadata: Metadata = {
   title: "Fish Scroll - 생선 식별 두루마리",
   description: "미지의 회를 식별하는 마법의 두루마리",
-  icons: {
-    icon: '/scroll-icon.svg',
-    apple: '/scroll-icon.svg',
-  },
 };
 
 export default function RootLayout({
